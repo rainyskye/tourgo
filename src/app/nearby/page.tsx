@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { customLocations, Location } from '@/data/locations';
 import { Phone, MapPin, Tag, Navigation } from 'lucide-react';
+import { link } from 'fs';
 
 interface LocationWithDistance extends Location {
   distance: number;
   phoneNumber: string;
+  link: string
   address: string;
   promotions: string[];
 }
@@ -43,6 +45,7 @@ const NearbyPage: React.FC = () => {
           ...location, 
           distance,
           phoneNumber: location.phoneNumber || 'No Phone Number Available',
+          link: location.link || 'No Link Available',
           address: location.address || 'No Address Available',
           promotions: location.promotions || ['No Promotions Available'],
         };
@@ -73,6 +76,10 @@ const NearbyPage: React.FC = () => {
   const handleCall = (phoneNumber: string) => {
     window.location.href = `tel:${phoneNumber}`;
   };
+
+  const handleLink = (link: string) => {
+    window.open(link, '${link}');
+  }
 
   const handleGetDirections = (address: string, lat: number, lng: number) => {
     const destinationParam = encodeURIComponent(address !== 'No Address Available' 
@@ -127,6 +134,12 @@ const NearbyPage: React.FC = () => {
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Get Directions
+                </button>
+                <button
+                  onClick={() => handleLink(location.link)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                >
+                  Link
                 </button>
               </div>
             </li>

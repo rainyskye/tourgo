@@ -1,3 +1,5 @@
+// /src/app/pages/index.tsx
+
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Map from '@/components/Map'
