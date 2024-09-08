@@ -42,9 +42,9 @@ const NearbyPage: React.FC = () => {
         return { 
           ...location, 
           distance,
-          phoneNumber: location.phoneNumber || '000-000-0000',
-          address: location.address || '123 Example St, City, Country',
-          promotions: location.promotions || ['10% off first visit'],
+          phoneNumber: location.phoneNumber || 'No Phone Number Available',
+          address: location.address || 'No Address Available',
+          promotions: location.promotions || ['No Promotions Available'],
         };
       });
 
@@ -74,8 +74,11 @@ const NearbyPage: React.FC = () => {
     window.location.href = `tel:${phoneNumber}`;
   };
 
-  const handleGetDirections = (lat: number, lng: number) => {
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, '_blank');
+  const handleGetDirections = (address: string, lat: number, lng: number) => {
+    const destinationParam = encodeURIComponent(address !== 'No Address Available' 
+      ? address 
+      : `${lat},${lng}`);
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${destinationParam}`, '_blank');
   };
 
   return (
@@ -120,7 +123,7 @@ const NearbyPage: React.FC = () => {
                   Call
                 </button>
                 <button
-                  onClick={() => handleGetDirections(location.lat, location.lng)}
+                  onClick={() => handleGetDirections(location.address, location.lat, location.lng)}
                   className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Get Directions

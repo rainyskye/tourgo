@@ -17,7 +17,7 @@ export interface Location {
       lat: -34.928009,
       lng: 138.604004,
       phoneNumber: "1300 575 803",
-      address: "88 Wakefield St, Adelaide SA 5000",
+      //address: "88 Wakefield St, Adelaide SA 5000",
       promotions: ["Cool Things???", "GovHack Venue!"]
     },
     // Add more locations...
