@@ -15,13 +15,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen bg-gray-100">
-        <Navbar />
-        <main className="flex-grow container mx-auto px-4 py-8">
+        <header className="bg-white shadow-md p-4 z-10 relative">
+          <h1 className="text-xl font-bold text-center">TourGo</h1>
+        </header>
+        <main className="flex-grow relative">
           {children}
         </main>
-        <footer className="bg-blue-600 text-white py-4 text-center">
-          © 2024 My Map App
-        </footer>
+        <Navbar />
       </body>
     </html>
   )

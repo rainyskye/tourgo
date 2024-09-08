@@ -2,12 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { Map, MapPin, Settings, Menu, X } from 'lucide-react';
+import { Map, MapPin, Settings } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
     { href: '/', label: 'Map', icon: Map },
@@ -16,60 +14,20 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="bg-blue-600 text-white shadow-lg">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between">
-          <div className="flex space-x-4">
-            <div>
-              <a href="#" className="flex items-center py-5 px-2 text-white">
-                <span className="font-bold">MyMapApp</span>
-              </a>
-            </div>
-          </div>
-          
-          {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`py-5 px-3 hover:text-blue-200 transition duration-300 flex items-center ${
-                    pathname === item.href ? 'text-blue-200 border-b-2 border-blue-200' : ''
-                  }`}
-                >
-                  <Icon className="mr-1 h-5 w-5" />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="mobile-menu-button p-2 focus:outline-none">
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+      <div className="flex justify-around">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`block py-2 px-4 text-sm hover:bg-blue-700 transition duration-300 flex items-center ${
-                pathname === item.href ? 'bg-blue-700' : ''
+              className={`flex flex-col items-center p-2 flex-1 ${
+                pathname === item.href ? 'text-blue-500' : 'text-gray-500'
               }`}
-              onClick={() => setIsOpen(false)}
             >
-              <Icon className="mr-1 h-5 w-5" />
-              {item.label}
+              <Icon className="h-6 w-6" />
+              <span className="text-xs mt-1">{item.label}</span>
             </Link>
           );
         })}

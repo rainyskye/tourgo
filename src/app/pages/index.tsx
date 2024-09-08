@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col h-screen">
       <Head>
-        <title>My Map App</title>
+        <title>TourGo</title>
         <meta name="description" content="A map app built with NextJS and Google Maps" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

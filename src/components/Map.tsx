@@ -21,6 +21,11 @@ const Map: React.FC = () => {
           new Map(mapRef.current, {
             center: { lat: 0, lng: 0 },
             zoom: 2,
+            disableDefaultUI: true, // Disable default UI for a cleaner look
+            zoomControl: true, // Add zoom control back if needed
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false,
           });
         }
       } catch (error) {
