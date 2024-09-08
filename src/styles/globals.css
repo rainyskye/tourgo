@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add padding to the bottom of the main content to account for the navbar */
-main {
-  padding-bottom: 60px; /* Adjust this value based on your navbar height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-/* Ensure the map container takes up full height */
-.h-full {
-  height: 100% !important;
+#__next {
+  height: 100%;
 }

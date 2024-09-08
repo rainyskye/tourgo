@@ -6,7 +6,7 @@ import { customLocations } from '@/data/locations';
 
 const containerStyle = {
   width: '100%',
-  height: '100vh'
+  height: '100%',
 };
 
 const center = {
@@ -28,7 +28,6 @@ const Map: React.FC = () => {
     map.fitBounds(bounds);
     setMap(map);
 
-    // Get user's location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -53,13 +52,21 @@ const Map: React.FC = () => {
     setMap(null);
   }, []);
 
-  return isLoaded ? (
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
       zoom={2}
       onLoad={onLoad}
       onUnmount={onUnmount}
+      options={{
+        fullscreenControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        zoomControl: false,
+      }}
     >
       {userLocation && (
         <Marker
@@ -75,7 +82,7 @@ const Map: React.FC = () => {
         />
       ))}
     </GoogleMap>
-  ) : <div>Loading...</div>;
+  );
 };
 
 export default Map;
