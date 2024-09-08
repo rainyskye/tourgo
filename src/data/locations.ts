@@ -1,17 +1,24 @@
 export interface Location {
-    id: string;
+    id: number;
     name: string;
+    description: string;
     lat: number;
     lng: number;
-    description?: string;
+    phoneNumber?: string;
+    address?: string;
+    promotions?: string[];
   }
   
   export const customLocations: Location[] = [
     {
-      id: '1',
-      name: 'Torrens University',
+      id: 1,
+      name: "Torrens University",
+      description: "GovHack 2024 Venue",
       lat: -34.928009,
       lng: 138.604004,
-      description: 'GovHack Adelaide Venue'
+      phoneNumber: "1300 575 803",
+      address: "88 Wakefield St, Adelaide SA 5000",
+      promotions: ["Cool Things???", "GovHack Venue!"]
     },
+    // Add more locations...
   ];
