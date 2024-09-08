@@ -1,39 +1,71 @@
 import React from 'react';
+import ScrollablePage from '@/components/ScrollablePage';
+import Link from 'next/link';
+import { AlertTriangle } from 'lucide-react'; // Make sure to import this icon
 
-const AboutPage: React.FC = () => {
-  const gitSha = process.env.NEXT_PUBLIC_GIT_SHA || 'unknown';
-  const version = `0.1.0 (${gitSha})`;
+const SettingsPage: React.FC = () => {
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">About TourGo</h1>
+    <ScrollablePage title="Settings">
+      {/* Warning Prompt */}
+      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+        <div className="flex">
+          <div className="flex-shrink-0">
+            <AlertTriangle className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+          </div>
+          <div className="ml-3">
+            <p className="text-sm text-yellow-700">
+              <strong className="font-medium text-yellow-800">Note:</strong> These settings are currently non-functional and are a work in progress. In the final version of the app, you would be able to customize your experience using these options.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="space-y-8">
+        
+        <section>
+          <h2 className="text-xl font-semibold mb-4">Account</h2>
+          <div className="bg-white shadow rounded-lg p-6">
+            <p className="text-gray-600 mb-4">Manage your account settings and preferences.</p>
+            {/* Placeholder for account settings */}
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Your Name" />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="your@email.com" />
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-3">How It Works</h2>
-        <p className="text-gray-700">
-          Using your location, TourGo can display nearby locations, whether this be a nice place to get some coffee, a nearby park to take a stroll, or any attractions in the area. your device&apos;s location (with your permission), TourGo shows you interesting locations near you. You can discover new places, get directions, and even see promotions or special offers from local businesses.
-        </p>
-      </section>
+        <section>
+          <h2 className="text-xl font-semibold mb-4">Privacy</h2>
+          <div className="bg-white shadow rounded-lg p-6">
+            <p className="text-gray-600 mb-4">Manage your privacy settings and data usage preferences.</p>
+            {/* Placeholder for privacy settings */}
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <input id="location-sharing" name="location-sharing" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+                <label htmlFor="location-sharing" className="ml-2 block text-sm text-gray-900">Share my location data</label>
+              </div>
+              <div className="flex items-center">
+                <input id="data-collection" name="data-collection" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+                <label htmlFor="data-collection" className="ml-2 block text-sm text-gray-900">Allow data collection for app improvement</label>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-3">Privacy & Security</h2>
-        <p className="text-gray-700">
-          We value your privacy. Your location data is only used with Google Maps to provide you with relevant nearby locations and is never stored or shared with third parties. You can manage your location settings at any time through your device settings.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-3">Contact Us</h2>
-        <p className="text-gray-700">
-          We&apos;re always looking to improve TourGo. If you have any questions, suggestions, or feedback, please don&apos;t hesitate to reach out to us at support@tourgo.com.
-        </p>
-      </section>
-
-      <footer className="mt-12 text-center text-gray-500">
-        <p>© 2024 TourGo. All rights reserved.</p>
-        <p className="mt-2">Version {version}</p>
-      </footer>
-    </div>
+        <section>
+          <h2 className="text-xl font-semibold mb-4">About</h2>
+          <div className="bg-white shadow rounded-lg p-6">
+            <p className="text-gray-600 mb-4">Using your location, TourGo can display nearby locations, whether this be a nice place to get some coffee, a nearby park to take a stroll, or any attractions in the area.</p>
+          </div>
+        </section>
+      </div>
+    </ScrollablePage>
   );
 };
 
-export default AboutPage;
+export default SettingsPage;

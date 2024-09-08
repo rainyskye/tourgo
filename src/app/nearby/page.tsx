@@ -1,14 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { customLocations, Location } from '@/data/locations';
-import { Phone, MapPin, Tag, Navigation } from 'lucide-react';
-import { link } from 'fs';
+import { Phone, MapPin, Tag, Navigation, AlertCircle } from 'lucide-react';
+import ScrollablePage from '@/components/ScrollablePage';
 
 interface LocationWithDistance extends Location {
   distance: number;
   phoneNumber: string;
-  link: string
   address: string;
   promotions: string[];
 }
@@ -16,21 +15,46 @@ interface LocationWithDistance extends Location {
 const NearbyPage: React.FC = () => {
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
   const [nearbyLocations, setNearbyLocations] = useState<LocationWithDistance[]>([]);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const getUserLocation = useCallback(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation(position.coords);
+          setLocationError(null);
         },
         (error) => {
-          console.error('Error getting user location:', error);
+          console.error('Geolocation error:', error);
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              setLocationError("Location access was denied. Please enable location services.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              setLocationError("Location information is unavailable. Please try again later.");
+              break;
+            case error.TIMEOUT:
+              setLocationError("The request to get your location timed out. Please try again.");
+              break;
+            default:
+              setLocationError("An unknown error occurred while trying to get your location.");
+              break;
+          }
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
         }
       );
     } else {
-      console.error('Geolocation is not supported by this browser.');
+      setLocationError("Geolocation is not supported by this browser.");
     }
   }, []);
+
+  useEffect(() => {
+    getUserLocation();
+  }, [getUserLocation]);
 
   useEffect(() => {
     if (userLocation) {
@@ -44,10 +68,9 @@ const NearbyPage: React.FC = () => {
         return { 
           ...location, 
           distance,
-          phoneNumber: location.phoneNumber || 'No Phone Number Available',
-          link: location.link || 'No Link Available',
-          address: location.address || 'No Address Available',
-          promotions: location.promotions || ['No Promotions Available'],
+          phoneNumber: location.phoneNumber || '000-000-0000',
+          address: location.address || '123 Example St, City, Country',
+          promotions: location.promotions || ['10% off first visit'],
         };
       });
 
@@ -77,21 +100,29 @@ const NearbyPage: React.FC = () => {
     window.location.href = `tel:${phoneNumber}`;
   };
 
-  const handleLink = (link: string) => {
-    window.open(link, '${link}');
-  }
-
   const handleGetDirections = (address: string, lat: number, lng: number) => {
-    const destinationParam = encodeURIComponent(address !== 'No Address Available' 
+    const destinationParam = encodeURIComponent(address !== '123 Example St, City, Country' 
       ? address 
       : `${lat},${lng}`);
     window.open(`https://www.google.com/maps/dir/?api=1&destination=${destinationParam}`, '_blank');
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Nearby Locations</h1>
-      {userLocation ? (
+    <ScrollablePage title="Nearby Locations">
+      {locationError ? (
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4" role="alert">
+          <div className="flex items-center">
+            <AlertCircle className="h-6 w-6 text-yellow-500 mr-4" />
+            <p>{locationError}</p>
+          </div>
+          <button 
+            onClick={getUserLocation} 
+            className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Retry Location Access
+          </button>
+        </div>
+      ) : userLocation ? (
         <ul className="space-y-6">
           {nearbyLocations.map(location => (
             <li key={location.id} className="bg-white shadow rounded-lg p-6">
@@ -135,12 +166,6 @@ const NearbyPage: React.FC = () => {
                 >
                   Get Directions
                 </button>
-                <button
-                  onClick={() => handleLink(location.link)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                >
-                  Link
-                </button>
               </div>
             </li>
           ))}
@@ -148,7 +173,7 @@ const NearbyPage: React.FC = () => {
       ) : (
         <p>Loading your location...</p>
       )}
-    </div>
+    </ScrollablePage>
   );
 };
 

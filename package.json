@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "starthttps": "NODE_ENV=production node server.js",
-    "getGitVersion": "echo NEXT_PUBLIC_GIT_SHA=`git rev-parse --short HEAD` > .env.local"
+    "prodbuild": "node update-env.js && next build"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.8",
